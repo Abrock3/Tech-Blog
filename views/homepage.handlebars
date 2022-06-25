@@ -1,20 +1,22 @@
-<!-- Loop over each object in the projects array -->
+<!-- Loop over each object in the blogs array -->
 {{#each blogs as |blog|}}
-  <div class='row'>
-    <div class='card'>
-      <div class='card-header'>{{blog.title}}</div>
-      <div class='card-body'>
-        <p class='card-text'>
-          {{blog.content}}
-        </p>
-        <a href='/blogpage.html' class='btn btn-primary'>Go somewhere</a>
-      </div>
-      <div class='card-footer text-muted'>
-        Posted by
-        {{blog.author}}
-        on
-        {{blog.date}}
-      </div>
+  <a
+    type='button'
+    class='row text-dark mb-2 mt-2 post-link card'
+    href='/blogs/{{id}}'
+  >
+    <div class='card-header home-page-card-header'><h5>{{blog.title}}</h5>
     </div>
-  </div>
+    <div class='card-body'>
+      <p class='card-text'>
+        {{blog.content}}
+      </p>
+    </div>
+    <div class='card-footer text-muted'>
+      Posted by
+      {{blog.user.username}}
+      on
+      {{blog.createdAt}}
+    </div>
+  </a>
 {{/each}}

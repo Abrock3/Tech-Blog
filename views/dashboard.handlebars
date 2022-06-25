@@ -1,22 +1,35 @@
-{{#if blogs}}
-  {{#each blogs as |blog|}}
-    <div class='row'>
-      <div class='card'>
-        <div class='card-header'>{{blog.title}}</div>
-        <div class='card-body'>
-          <p class='card-text'>
-            {{blog.content}}
-          </p>
-          <a href='/blogpage.html' class='btn btn-primary'>Go somewhere</a>
-        </div>
-        <div class='card-footer text-muted'>
-          <a href='/edit-blog.html'>Edit Blog</a>
-          <button id='delete-post-button'>Delete Post</button>
-        </div>
+{{#if user.posts}}
+  {{#each user.posts as |post|}}
+    <a
+      href='/blogs/{{id}}'
+      type='button'
+      class='row text-dark mb-2 mt-2 post-link card'
+    >
+      <div class='card-header dashboard-card-header'><h5
+        >{{post.title}}</h5></div>
+      <div class='card-body'>
+        <p class='card-text'>
+          {{post.content}}
+        </p>
+
       </div>
+      <div class='card-footer text-muted'>
+        You posted this on
+        {{post.createdAt}}
+      </div>
+    </a>
+    <div class='card-footer text-muted mb-3'>
+      <a href='/edit-blog/{{id}}' class='btn btn-info'>Edit Post</a>
+      <button
+        data-id='{{post.id}}'
+        class='btn bg-danger'
+        id='delete-post-button'
+      >Delete Post</button>
     </div>
   {{/each}}
 {{/if}}
 <div class='row'>
   <a href='/create-blog' id='add-post-link'>Add Post</a>
 </div>
+
+<script src='/js/dashboard.js'></script>
