@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+// post route to api/user/ to create an account
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
@@ -12,7 +13,7 @@ router.post('/', async (req, res) => {
       res.status(200).json(userData);
     });
   } catch (err) {
-    console.log(err)
+    // this is a common error; if we didn't send a custom message the user wouldn't know why their attempt failed
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(400).json({
         message:
@@ -24,6 +25,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// post to attempt to log in
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({
@@ -36,12 +38,14 @@ router.post('/login', async (req, res) => {
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
-
+// uses the checkPassword method in the User class to decrypt the password, check it,
+// and return a boolean signifying whether it was correct
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
       res
         .status(400)
+        // both error messages are the same to prevent users confirming that a username exists
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
@@ -57,6 +61,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// destroys the client's session
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {

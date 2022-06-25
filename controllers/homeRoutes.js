@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
       ],
       attributes: {
         include: [
+          // this fetches a count of comments associated with this post
           [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'commentCount'],
         ],
       },
@@ -24,6 +25,7 @@ router.get('/', async (req, res) => {
 
     // Serialize data so the template can read it
     const blogs = postData.map((post) => post.get({ plain: true }));
+    // this ensures that the data will be displayed from the newest to the oldest post
     blogs.reverse();
     // Pass serialized data and session flag into template
     res.render('homepage', {
@@ -51,6 +53,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
           include: [{ model: Comment, attributes: [] }],
           attributes: {
             include: [
+              // includes a count of comments associated with each post
               [Sequelize.fn('COUNT', Sequelize.col('user.id')), 'commentCount'],
             ],
           },
@@ -60,8 +63,8 @@ router.get('/dashboard', withAuth, async (req, res) => {
     });
 
     const user = userData.get({ plain: true });
+    // ensures that the content is displayed with the newest post first
     user.posts.reverse();
-    console.log(user);
     res.render('dashboard', {
       user,
       logged_in: req.session.logged_in,
@@ -77,14 +80,16 @@ router.get('/login', (req, res) => {
     res.redirect('/dashboard');
     return;
   }
-
   res.render('login');
 });
 
+// displays the create-blog page, and requires the user be logged in
 router.get('/create-blog', withAuth, (req, res) => {
   res.render('create-blog', { logged_in: true });
 });
 
+// when the user is trying to edit a post, this will get the data of that post so we can display it to the
+// user before they edit it
 router.get('/edit-blog/:id', withAuth, async (req, res) => {
   const postData = await Post.findOne({
     where: { id: req.params.id, user_id: req.session.user_id },
@@ -98,6 +103,8 @@ router.get('/edit-blog/:id', withAuth, async (req, res) => {
   res.render('edit-blog', { ...blog, logged_in: req.session.logged_in });
 });
 
+// gets the post's information, including any comments associated with that post, and any users that 
+// wrote those comments
 router.get('/blogs/:id', withAuth, async (req, res) => {
   const postData = await Post.findByPk(req.params.id, {
     include: [

@@ -1,4 +1,4 @@
-<div class='row btn btn-success mt-2'>
+<div class='row btn btn-success mt-3'>
   <a
     href='/create-blog'
     class='text-white text-decoration-none'
@@ -35,6 +35,8 @@
       >Delete Post</button>
     </div>
   {{/each}}
+{{else}}
+  <h3 class='mt-5'>When you write a post, it appears here!</h3>
 {{/if}}
 
 <script src='/js/dashboard.js'></script>

@@ -3,6 +3,7 @@ const { Post } = require('../../models');
 const { update } = require('../../models/User');
 const withAuth = require('../../utils/auth');
 
+// simple post route to api/posts will attempt to create a post, assuming the client is logged in
 router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
@@ -16,6 +17,7 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
+// put route to api/posts/:id results in an attempt to change a post, requiring that the user be logged in
 router.put('/:id', withAuth, async (req, res) => {
   try {
     const updatedPost = await Post.update(
@@ -25,6 +27,7 @@ router.put('/:id', withAuth, async (req, res) => {
       {
         where: {
           id: req.params.id,
+          // this ensures that users can't change the posts of other users 
           user_id: req.session.user_id,
         },
       }
@@ -35,11 +38,13 @@ router.put('/:id', withAuth, async (req, res) => {
   }
 });
 
+// delete route attempts to delete a post
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
       where: {
         id: req.params.id,
+        // ensures other users cannot delete your post
         user_id: req.session.user_id,
       },
     });
