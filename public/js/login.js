@@ -14,7 +14,7 @@ const loginFormHandler = async (event) => {
     });
 
     if (response.ok) {
-      // If successful, redirect the browser to the profile page
+      // If successful, redirect the browser to the home page
       document.location.replace('/');
     } else {
       const error = await response.json();
@@ -38,6 +38,7 @@ const signupFormHandler = async (event) => {
   if (password.length >= 8) {
     if (confirm === password) {
       if (username && email && password) {
+        // Send a POST request to the API endpoint
         const response = await fetch('/api/users', {
           method: 'POST',
           body: JSON.stringify({ username, email, password }),
@@ -45,9 +46,10 @@ const signupFormHandler = async (event) => {
         });
 
         if (response.ok) {
+          // If successful, redirect the browser to the home page
           document.location.replace('/');
         } else {
-          const error = response.json();
+          const error = await response.json();
           if (error.message) {
             alert(error.message);
           } else {

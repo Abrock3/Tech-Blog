@@ -5,6 +5,7 @@ const userData = require('./userData.json');
 const postData = require('./postData.json');
 const commentData = require('./commentData.json');
 
+// handles the seeding
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
 
@@ -19,7 +20,7 @@ const seedDatabase = async () => {
       user_id: users[Math.floor(Math.random() * users.length)].id,
     });
   }
-
+// calling for all the new post information so I can seed comments for them
   const postValues = await Post.findAll({
     include: [
       {

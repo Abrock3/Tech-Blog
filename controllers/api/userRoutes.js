@@ -12,7 +12,15 @@ router.post('/', async (req, res) => {
       res.status(200).json(userData);
     });
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err)
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(400).json({
+        message:
+          'Either the username or email you entered has already been used!',
+      });
+    } else {
+      res.status(400).json(err)
+    }
   }
 });
 
@@ -45,14 +53,7 @@ router.post('/login', async (req, res) => {
       res.json({ user: userData, message: 'You are now logged in!' });
     });
   } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      res.status(400).json({
-        message:
-          'Either the username or email you entered has already been used!',
-      });
-    } else {
-      res.status(400).json(err);
-    }
+    res.status(400).json(err);
   }
 });
 
