@@ -15,32 +15,53 @@ const loginFormHandler = async (event) => {
 
     if (response.ok) {
       // If successful, redirect the browser to the profile page
-      document.location.replace('/dashboard');
+      document.location.replace('/');
     } else {
-      alert(response.statusText);
+      const error = await response.json();
+      if (error.message) {
+        alert(error.message);
+      } else {
+        alert('Login Failed!');
+      }
     }
   }
 };
 
 const signupFormHandler = async (event) => {
   event.preventDefault();
-
-  const name = document.querySelector('#name-signup').value.trim();
+  const username = document.querySelector('#name-signup').value.trim();
   const email = document.querySelector('#email-signup').value.trim();
   const password = document.querySelector('#password-signup').value.trim();
+  const confirm = document
+    .querySelector('#password-signup-confirm')
+    .value.trim();
+  if (password.length >= 8) {
+    if (confirm === password) {
+      if (username && email && password) {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          body: JSON.stringify({ username, email, password }),
+          headers: { 'Content-Type': 'application/json' },
+        });
 
-  if (name && email && password) {
-    const response = await fetch('/api/users', {
-      method: 'POST',
-      body: JSON.stringify({ name, email, password }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (response.ok) {
-      document.location.replace('/dashboard');
+        if (response.ok) {
+          document.location.replace('/');
+        } else {
+          const error = response.json();
+          if (error.message) {
+            alert(error.message);
+          } else {
+            alert('Sign up failed!');
+          }
+        }
+      } else {
+        window.alert('You must fill out all fields!');
+      }
     } else {
-      alert(response.statusText);
+      window.alert("Your passwords don't match!");
     }
+  } else {
+    window.alert('Your password must be at least 8 characters long!');
   }
 };
 

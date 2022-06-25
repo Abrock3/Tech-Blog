@@ -75,7 +75,7 @@ router.get('/edit-blog/:id', withAuth, async (req, res) => {
   res.render('edit-blog', { ...blog, logged_in: req.session.logged_in });
 });
 
-router.get('/blogs/:id', async (req, res) => {
+router.get('/blogs/:id', withAuth, async (req, res) => {
   const postData = await Post.findByPk(req.params.id, {
     include: [
       {
