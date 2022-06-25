@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
+const Sequelize = require('../config/connection');
 
 router.get('/', async (req, res) => {
   try {
@@ -11,12 +12,19 @@ router.get('/', async (req, res) => {
           model: User,
           attributes: ['username'],
         },
+        { model: Comment, attributes: [] },
       ],
+      attributes: {
+        include: [
+          [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'commentCount'],
+        ],
+      },
+      group: ['Post.id'],
     });
 
     // Serialize data so the template can read it
     const blogs = postData.map((post) => post.get({ plain: true }));
-    console.log(blogs);
+    blogs.reverse();
     // Pass serialized data and session flag into template
     res.render('homepage', {
       blogs,
@@ -33,11 +41,26 @@ router.get('/dashboard', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
+      attributes: {
+        include: ['username'],
+        exclude: ['password', 'id', 'email'],
+      },
+      include: [
+        {
+          model: Post,
+          include: [{ model: Comment, attributes: [] }],
+          attributes: {
+            include: [
+              [Sequelize.fn('COUNT', Sequelize.col('user.id')), 'commentCount'],
+            ],
+          },
+        },
+      ],
+      group: ['Posts.id'],
     });
-    const user = userData.get({ plain: true });
 
+    const user = userData.get({ plain: true });
+    user.posts.reverse();
     console.log(user);
     res.render('dashboard', {
       user,

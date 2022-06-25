@@ -1,6 +1,6 @@
 <div class='row card mb-2 mt-2'>
 
-  <div class='card-header'>{{title}}</div>
+  <div class='card-header blog-page-header'><h5>{{title}}</h5></div>
   <div class='card-body'>
     <p class='card-text'>
       {{content}}
@@ -15,16 +15,20 @@
 </div>
 <div class='row'>
   <form id='comment-form' data-id='{{id}}'>
-    <textarea id='comment-text-area' class='d-block mb-2'></textarea>
+    <textarea
+      id='comment-text-area'
+      rows='6'
+      placeholder='Write your comment...'
+      class='d-block mb-2 w-50 form-control'
+    ></textarea>
     <button type='submit' id='comment-submit' class='btn btn-success'>Submit
       Comments</button>
   </form>
-
 </div>
 {{#each comments as |comment|}}
-  <div class='row card'>
+  <div class='row card mb-2'>
 
-    <div class='card-body'>
+    <div class='card-body comment-body'>
       <p class='card-text'>{{comment.content}}</p>
     </div>
     <div class='card-footer text-muted'>
@@ -36,4 +40,4 @@
 
   </div>
 {{/each}}
-<script src='/js/blogpage.js'></script>
+<script src='/js/blog-page.js'></script>

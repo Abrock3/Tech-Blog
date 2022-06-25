@@ -1,3 +1,10 @@
+<div class='row btn btn-success mt-2'>
+  <a
+    href='/create-blog'
+    class='text-white text-decoration-none'
+    id='add-post-link'
+  ><strong>Add New Post</strong></a>
+</div>
 {{#if user.posts}}
   {{#each user.posts as |post|}}
     <a
@@ -14,6 +21,7 @@
 
       </div>
       <div class='card-footer text-muted'>
+        <h6>{{commentCount}} Comments</h6>
         You posted this on
         {{post.createdAt}}
       </div>
@@ -28,8 +36,5 @@
     </div>
   {{/each}}
 {{/if}}
-<div class='row'>
-  <a href='/create-blog' id='add-post-link'>Add Post</a>
-</div>
 
 <script src='/js/dashboard.js'></script>
