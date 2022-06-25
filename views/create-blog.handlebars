@@ -1,8 +1,20 @@
 <div class='row'>
+  <h3>Write your Post</h3>
   <form id='create-post-form'>
-    <input id='create-post-title' placeholder='Post Title...' type='text' />
-    <textarea id='create-post-content'></textarea>
-    <button id='create-post-save-button'>Save</button>
+    <textarea
+      class='w-25 form-control mb-3'
+      id='create-post-title'
+      placeholder='Title your post!'
+      type='text'
+      rows='1'
+    ></textarea>
+    <textarea
+      id='create-post-content'
+      placeholder='What do you want to say?'
+      class='w-50 form-control mb-2'
+      rows='10'
+    ></textarea>
+    <button id='create-post-save-button' class='btn btn-success'>Create New Post</button>
   </form>
 </div>
 <script src='/js/create-blog.js'></script>
