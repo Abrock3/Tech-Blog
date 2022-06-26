@@ -6,6 +6,8 @@ This is my take on a Tech Blog site, using the node packages sequelize, express-
 
 When I get back to this project I'd like to add the ability to edit comments, delete your own comments, and paginate the big feeds if there's too many posts. Also, creating a basic algorithm for which posts should be displayed first would be interesting. Right now it's in chronological order, but mixing in how often that user posts and how many comments are on the post could result in a better user experience, displaying topics that are being commented on more recently first.
 
+Another possible future addition would be the ability to reply to another comment, similar to reddit.
+
 ## Table of Contents
 
 - [Installation](#installation)
