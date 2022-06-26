@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // post route to api/user/ to create an account
 router.post('/', async (req, res) => {
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
           'Either the username or email you entered has already been used!',
       });
     } else {
-      res.status(400).json(err)
+      res.status(400).json(err);
     }
   }
 });
@@ -38,8 +39,8 @@ router.post('/login', async (req, res) => {
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
-// uses the checkPassword method in the User class to decrypt the password, check it,
-// and return a boolean signifying whether it was correct
+    // uses the checkPassword method in the User class to decrypt the password, check it,
+    // and return a boolean signifying whether it was correct
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
 });
 
 // destroys the client's session
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
