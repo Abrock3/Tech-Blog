@@ -9,11 +9,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const hbs = exphbs.create({});
 
-
 const sess = {
-  secret: 'Super secret secret',
-  cookie: {},
-  resave: false,
+  secret: 'dk^6d*bT{H%go(]/H~TkJPS9T[IGw!XaYq_;lj#r6I&XaRLv!<;2a=Rn5B1!QQ',
+  // the cookie will expire after 6 minutes of inactivity
+  cookie: { expires: 360000 },
+  resave: true,
+  rolling: true,
   saveUninitialized: true,
   store: new SequelizeStore({
     db: sequelize,
