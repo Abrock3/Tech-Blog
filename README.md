@@ -60,7 +60,9 @@ express-session - https://www.npmjs.com/package/express-session
 
 sequelize - https://sequelize.org/
     
-Bootstrap was used to style its pages - https://getbootstrap.com/
+mysql2 - https://www.npmjs.com/package/mysql2
+
+Bootstrap 5 was used to style its pages - https://getbootstrap.com/
 
 As always, I have to thank Trey Eckels and the instructional team at the Georgia Tech full stack boot camp program
 for teaching me the skills to design an app like this.
