@@ -1,14 +1,14 @@
-<h2>{{user.username}}&#39s Dashboard</h2>
+<h2>Your Dashboard</h2>
 
-<div class='row btn btn-success mt-3'>
+<div class='row btn btn-success ms-2 mb-1'>
   <a
     href='/create-blog'
     class='text-white text-decoration-none'
     id='add-post-link'
   ><strong>Add New Post</strong></a>
 </div>
-{{#if user.posts}}
-  {{#each user.posts as |post|}}
+{{#if user.length}}
+  {{#each user as |post|}}
     <a
       href='/blogs/{{id}}'
       type='button'

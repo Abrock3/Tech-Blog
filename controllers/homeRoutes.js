@@ -42,29 +42,51 @@ router.get('/', async (req, res) => {
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: {
-        include: ['username'],
-        exclude: ['password', 'id', 'email'],
-      },
+    // const userData = await User.findByPk(req.session.user_id, {
+    //   attributes: {
+    //     include: ['username'],
+    //     exclude: ['password', 'id', 'email'],
+    //   },
+    //   include: [
+    //     {
+    //       model: Post,
+    //       include: [
+    //         {
+    //           model: Comment,
+    //           attributes: [
+    //             [
+    //               Sequelize.fn('COUNT', Sequelize.col('user.id')),
+    //               'commentCount',
+    //             ],
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   ],
+    //   group: ['Posts.id'],
+    // });
+    const userData = await Post.findAll({
       include: [
         {
-          model: Post,
-          include: [{ model: Comment, attributes: [] }],
-          attributes: {
-            include: [
-              // includes a count of comments associated with each post
-              [Sequelize.fn('COUNT', Sequelize.col('user.id')), 'commentCount'],
-            ],
-          },
+          model: User,
+          attributes: ['username'],
         },
+        { model: Comment, attributes: [] },
       ],
-      group: ['Posts.id'],
-    });
 
-    const user = userData.get({ plain: true });
+      attributes: {
+        include: [
+          // this fetches a count of comments associated with this post
+          [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'commentCount'],
+        ],
+      },
+      group: ['Post.id'],
+    });
+    const user = userData.map((post) => post.get({ plain: true }));
+    console.log(user);
+
     // ensures that the content is displayed with the newest post first
-    user.posts.reverse();
+    user.reverse();
     res.render('dashboard', {
       user,
       logged_in: req.session.logged_in,
@@ -103,7 +125,7 @@ router.get('/edit-blog/:id', withAuth, async (req, res) => {
   res.render('edit-blog', { ...blog, logged_in: req.session.logged_in });
 });
 
-// gets the post's information, including any comments associated with that post, and any users that 
+// gets the post's information, including any comments associated with that post, and any users that
 // wrote those comments
 router.get('/blogs/:id', withAuth, async (req, res) => {
   const postData = await Post.findByPk(req.params.id, {

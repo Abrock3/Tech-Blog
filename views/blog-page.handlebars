@@ -1,4 +1,4 @@
-<div class='row card mb-2 mt-2'>
+<div class='row card mb-3'>
 
   <div class='card-header blog-page-header'><h5>{{title}}</h5></div>
   <div class='card-body'>
@@ -14,12 +14,12 @@
   </div>
 </div>
 <div class='row'>
-  <form id='comment-form' data-id='{{id}}'>
+  <form id='comment-form' data-id='{{id}}' class='col col-lg-6 ms-2'>
     <textarea
       id='comment-text-area'
       rows='6'
       placeholder='Write your comment...'
-      class='d-block mb-2 w-50 form-control'
+      class='d-block mb-2 form-control'
     ></textarea>
     <button type='submit' id='comment-submit' class='btn btn-success'><strong
       >Submit Comment</strong></button>

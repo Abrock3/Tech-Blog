@@ -1,7 +1,11 @@
-<form class='row card mt-2' id='edit-blog-form' data-id='{{id}}'>
+<form class='row card' id='edit-blog-form' data-id='{{id}}'>
   <div class='card-header edit-blog-header'><h5>{{title}}</h5></div>
   <div class='card-body'>
-    <textarea id='edit-blog-textarea' class='card-text'>{{content}}</textarea>
+    <textarea
+      id='edit-blog-textarea'
+      rows='10'
+      class='card-text col-12 col-lg-6 border-dark'
+    >{{content}}</textarea>
   </div>
   <div class='card-footer text-muted'>
     <button
