@@ -8,9 +8,7 @@
   </div>
   <div class='card-footer text-muted'>
     Posted by
-    {{user.username}}
-    on
-    {{createdAt}}
+    {{user.username}} {{format_date createdAt}}
   </div>
 </div>
 <div class='row'>
@@ -33,9 +31,7 @@
     </div>
     <div class='card-footer text-muted'>
       Posted by
-      {{comment.user.username}}
-      on
-      {{comment.createdAt}}
+      {{comment.user.username}} {{format_date comment.createdAt}}
     </div>
 
   </div>

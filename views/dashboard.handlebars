@@ -23,9 +23,8 @@
 
       </div>
       <div class='card-footer text-muted'>
-        <h6>{{commentCount}} Comments</h6>
-        You posted this on
-        {{post.createdAt}}
+        <h6>{{is_it_one commentCount}}</h6>
+        You posted this {{format_date post.createdAt}}
       </div>
     </a>
     <div class='card-footer text-muted mb-3'>
