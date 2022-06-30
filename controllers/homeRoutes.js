@@ -41,31 +41,8 @@ router.get('/', async (req, res) => {
 // Use withAuth middleware to prevent access to route
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
-    // const userData = await User.findByPk(req.session.user_id, {
-    //   attributes: {
-    //     include: ['username'],
-    //     exclude: ['password', 'id', 'email'],
-    //   },
-    //   include: [
-    //     {
-    //       model: Post,
-    //       include: [
-    //         {
-    //           model: Comment,
-    //           attributes: [
-    //             [
-    //               Sequelize.fn('COUNT', Sequelize.col('user.id')),
-    //               'commentCount',
-    //             ],
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    //   group: ['Posts.id'],
-    // });
     const userData = await Post.findAll({
+      where: { user_id: req.session.user_id },
       include: [
         {
           model: User,
